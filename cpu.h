@@ -90,9 +90,11 @@ public:
     void nmi();	  //Non-Maskable Interrupt Request - As above, but cannot be disabled
 
 private:
+
+    const uint8_t STACK_OFFSET = 0x0100;
+
     Bus*     bus        = nullptr;
     uint8_t  fetched    = 0x00;   // Represents the working input value to the ALU
-    uint16_t temp       = 0x0000; // A convenience variable used everywhere
     uint16_t address_abs= 0x0000; // All used memory addresses end up in here
     uint16_t address_rel= 0x00;   // Represents absolute address following a branch
     uint8_t  opcode     = 0x00;   // Is the instruction byte
@@ -119,7 +121,7 @@ private:
 
     // Functions to access status registers
     uint8_t GetFlag(CPU_FLAGS flag);
-    void    SetFlag(CPU_FLAGS, bool value);
+    void    SetFlag(CPU_FLAGS flag, bool value);
 
     // Addressing Modes =============================================
     // The 6502 has a variety of addressing modes to access data in
