@@ -852,6 +852,27 @@ u_int8_t CPU::TYA()
     return 0;
 }
 
+//Arithmetic shift left
+uint8_t CPU::ASL()
+{
+    fetch();
+    uint16_t temp = (uint16_t)fetched << 1;
+    SetFlag(C, (temp & 0xFF00) > 0);
+    SetFlag(Z, (temp & 0x00FF) == 0x00);
+    SetFlag(N, temp & 0x80);
+
+    if(lookup[opcode].addrmode == &CPU::IMP)
+    {
+        a = temp & 0x00FF;
+    }
+    else
+    {
+        write(address_abs, temp & 0x00FF);
+    }
+
+    return 0;
+}
+
 //Skip
 uint8_t CPU::NOP()
 {
